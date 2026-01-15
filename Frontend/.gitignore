@@ -1,0 +1,12 @@
+# Ignore the heavy virtual environment
+venv/
+backend/venv/
+.env
+
+# Ignore database files
+student_db/
+__pycache__/
+*.pyc
+
+# Ignore system files
+.DS_Store
