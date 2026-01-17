@@ -1,8 +1,8 @@
 import google.generativeai as genai
 import os
 
-# Your Key
-KEY = "AIzaSyAtg2izakGyNc7AAh5rfrd5KmwnZlezD8M"
+
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))"
 
 print(f"🔍 Testing API Key: {KEY[:10]}...")
 
