@@ -512,12 +512,14 @@ const MainApp = ({ userData, onLogout }) => {
     // Notifications State
     const [notifications, setNotifications] = useState([]);
 
-    // Use config for API base URL
-    const API_BASE = window.CONFIG?.API_BASE_URL || "http://127.0.0.1:8000";
+    // --------------------------------------------------------------------------
+    // UPDATED: Use Render URL instead of Localhost
+    // --------------------------------------------------------------------------
+    const API_BASE = "https://mentra-studentos.onrender.com";
 
     // Initialize Icons - No longer needed with LucideIcon component
     // useEffect(() => {
-    //     if (window.lucide) window.lucide.createIcons();
+    //      if (window.lucide) window.lucide.createIcons();
     // }, [view, messages, tasks, exams, projects, showSettings, notes, notifications, darkMode, showCommandPalette, showGlobalSearch]);
 
     // Keyboard Shortcuts
