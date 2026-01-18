@@ -789,9 +789,14 @@ const MainApp = ({ userData, onLogout }) => {
 
     // --- TASKS ---
     const addTask = (projectId = null) => {
-        if (newTask) {
-            const taskObj = { id: Date.now(), text: newTask, completed: false, projectId: projectId || selectedProject?.id || null };
-            setTasks([...tasks, taskObj]);
+        if (newTask.trim()) {
+            const taskObj = {
+                id: Date.now(),
+                text: newTask.trim(),
+                completed: false,
+                projectId: (projectId && typeof projectId !== 'object') ? projectId : (selectedProject?.id || null)
+            };
+            setTasks(prev => [...prev, taskObj]);
             setNewTask('');
         }
     };
@@ -827,11 +832,11 @@ const MainApp = ({ userData, onLogout }) => {
         if (newProjectName.trim()) {
             const project = {
                 id: Date.now(),
-                name: newProjectName,
+                name: newProjectName.trim(),
                 tasks: [],
                 createdAt: new Date().toISOString()
             };
-            setProjects([...projects, project]);
+            setProjects(prev => [...prev, project]);
             setNewProjectName('');
         }
     };
@@ -1219,110 +1224,110 @@ const MainApp = ({ userData, onLogout }) => {
                         <div className="max-w-7xl mx-auto">
                             {/* Welcome Section */}
                             <div className="mb-8">
-                                <h2 className="text-4xl font-bold text-slate-900 mb-2">
+                                <h2 className={`text-4xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-2`}>
                                     Welcome back, {userData?.name}! 👋
                                 </h2>
-                                <p className="text-slate-600">Here's your academic overview</p>
+                                <p className={darkMode ? 'text-gray-400' : 'text-slate-600'}>Here's your academic overview</p>
                             </div>
 
                             {/* Stats Grid */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} rounded-2xl p-6 shadow-sm border`}>
                                     <div className="flex items-center justify-between mb-4">
-                                        <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
-                                            <LucideIcon name="list-todo" className="w-6 h-6 text-indigo-600" size={24} />
+                                        <div className={`w-12 h-12 ${darkMode ? 'bg-indigo-900/50' : 'bg-indigo-100'} rounded-xl flex items-center justify-center`}>
+                                            <LucideIcon name="list-todo" className={`w-6 h-6 ${darkMode ? 'text-indigo-400' : 'text-indigo-600'}`} size={24} />
                                         </div>
                                     </div>
-                                    <div className="text-3xl font-bold text-slate-900 mb-1">{activeTasks}</div>
-                                    <div className="text-sm text-slate-600">Active Tasks</div>
+                                    <div className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-1`}>{activeTasks}</div>
+                                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-slate-600'}`}>Active Tasks</div>
                                 </div>
 
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} rounded-2xl p-6 shadow-sm border`}>
                                     <div className="flex items-center justify-between mb-4">
-                                        <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                                            <LucideIcon name="check-circle" className="w-6 h-6 text-green-600" size={24} />
+                                        <div className={`w-12 h-12 ${darkMode ? 'bg-green-900/50' : 'bg-green-100'} rounded-xl flex items-center justify-center`}>
+                                            <LucideIcon name="check-circle" className={`w-6 h-6 ${darkMode ? 'text-green-400' : 'text-green-600'}`} size={24} />
                                         </div>
                                     </div>
-                                    <div className="text-3xl font-bold text-slate-900 mb-1">{completedTasks}</div>
-                                    <div className="text-sm text-slate-600">Completed Tasks</div>
+                                    <div className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-1`}>{completedTasks}</div>
+                                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-slate-600'}`}>Completed Tasks</div>
                                 </div>
 
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} rounded-2xl p-6 shadow-sm border`}>
                                     <div className="flex items-center justify-between mb-4">
-                                        <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                                            <LucideIcon name="folder-kanban" className="w-6 h-6 text-purple-600" size={24} />
+                                        <div className={`w-12 h-12 ${darkMode ? 'bg-purple-900/50' : 'bg-purple-100'} rounded-xl flex items-center justify-center`}>
+                                            <LucideIcon name="folder-kanban" className={`w-6 h-6 ${darkMode ? 'text-purple-400' : 'text-purple-600'}`} size={24} />
                                         </div>
                                     </div>
-                                    <div className="text-3xl font-bold text-slate-900 mb-1">{projects.length}</div>
-                                    <div className="text-sm text-slate-600">Projects</div>
+                                    <div className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-1`}>{projects.length}</div>
+                                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-slate-600'}`}>Projects</div>
                                 </div>
 
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} rounded-2xl p-6 shadow-sm border`}>
                                     <div className="flex items-center justify-between mb-4">
-                                        <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                                            <LucideIcon name="calendar" className="w-6 h-6 text-orange-600" size={24} />
+                                        <div className={`w-12 h-12 ${darkMode ? 'bg-orange-900/50' : 'bg-orange-100'} rounded-xl flex items-center justify-center`}>
+                                            <LucideIcon name="calendar" className={`w-6 h-6 ${darkMode ? 'text-orange-400' : 'text-orange-600'}`} size={24} />
                                         </div>
                                     </div>
-                                    <div className="text-3xl font-bold text-slate-900 mb-1">{exams.length}</div>
-                                    <div className="text-sm text-slate-600">Upcoming Exams</div>
+                                    <div className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-1`}>{exams.length}</div>
+                                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-slate-600'}`}>Upcoming Exams</div>
                                 </div>
 
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} rounded-2xl p-6 shadow-sm border`}>
                                     <div className="flex items-center justify-between mb-4">
-                                        <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                                            <LucideIcon name="file-text" className="w-6 h-6 text-blue-600" size={24} />
+                                        <div className={`w-12 h-12 ${darkMode ? 'bg-blue-900/50' : 'bg-blue-100'} rounded-xl flex items-center justify-center`}>
+                                            <LucideIcon name="file-text" className={`w-6 h-6 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} size={24} />
                                         </div>
                                     </div>
-                                    <div className="text-3xl font-bold text-slate-900 mb-1">{notes.length}</div>
-                                    <div className="text-sm text-slate-600">Notes</div>
+                                    <div className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-1`}>{notes.length}</div>
+                                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-slate-600'}`}>Notes</div>
                                 </div>
                             </div>
 
                             {/* Quick Actions & Recent Activity */}
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                                 {/* Quick Actions */}
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                                        <LucideIcon name="zap" className="w-5 h-5 text-indigo-600" size={20} />
+                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} rounded-2xl p-6 shadow-sm border`}>
+                                    <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                                        <LucideIcon name="zap" className={`w-5 h-5 ${darkMode ? 'text-indigo-400' : 'text-indigo-600'}`} size={20} />
                                         Quick Actions
                                     </h3>
                                     <div className="grid grid-cols-2 gap-3">
-                                        <button onClick={() => setView('chat')} className="p-4 bg-indigo-50 rounded-xl hover:bg-indigo-100 transition text-left">
-                                            <div className="text-lg font-bold text-indigo-600 mb-1">Chat</div>
-                                            <div className="text-xs text-slate-600">Ask AI questions</div>
+                                        <button onClick={() => setView('chat')} className={`p-4 ${darkMode ? 'bg-indigo-900/30 hover:bg-indigo-900/50' : 'bg-indigo-50 hover:bg-indigo-100'} rounded-xl transition text-left`}>
+                                            <div className={`text-lg font-bold ${darkMode ? 'text-indigo-400' : 'text-indigo-600'} mb-1`}>Chat</div>
+                                            <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-slate-600'}`}>Ask AI questions</div>
                                         </button>
-                                        <button onClick={() => setView('tasks')} className="p-4 bg-green-50 rounded-xl hover:bg-green-100 transition text-left">
-                                            <div className="text-lg font-bold text-green-600 mb-1">Add Task</div>
-                                            <div className="text-xs text-slate-600">Create new task</div>
+                                        <button onClick={() => setView('tasks')} className={`p-4 ${darkMode ? 'bg-green-900/30 hover:bg-green-900/50' : 'bg-green-50 hover:bg-green-100'} rounded-xl transition text-left`}>
+                                            <div className={`text-lg font-bold ${darkMode ? 'text-green-400' : 'text-green-600'} mb-1`}>Add Task</div>
+                                            <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-slate-600'}`}>Create new task</div>
                                         </button>
-                                        <button onClick={() => setView('projects')} className="p-4 bg-purple-50 rounded-xl hover:bg-purple-100 transition text-left">
-                                            <div className="text-lg font-bold text-purple-600 mb-1">New Project</div>
-                                            <div className="text-xs text-slate-600">Start a project</div>
+                                        <button onClick={() => setView('projects')} className={`p-4 ${darkMode ? 'bg-purple-900/30 hover:bg-purple-900/50' : 'bg-purple-50 hover:bg-purple-100'} rounded-xl transition text-left`}>
+                                            <div className={`text-lg font-bold ${darkMode ? 'text-purple-400' : 'text-purple-600'} mb-1`}>New Project</div>
+                                            <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-slate-600'}`}>Start a project</div>
                                         </button>
-                                        <button onClick={() => setView('drawing')} className="p-4 bg-orange-50 rounded-xl hover:bg-orange-100 transition text-left">
-                                            <div className="text-lg font-bold text-orange-600 mb-1">Draw</div>
-                                            <div className="text-xs text-slate-600">Sketch ideas</div>
+                                        <button onClick={() => setView('drawing')} className={`p-4 ${darkMode ? 'bg-orange-900/30 hover:bg-orange-900/50' : 'bg-orange-50 hover:bg-orange-100'} rounded-xl transition text-left`}>
+                                            <div className={`text-lg font-bold ${darkMode ? 'text-orange-400' : 'text-orange-600'} mb-1`}>Draw</div>
+                                            <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-slate-600'}`}>Sketch ideas</div>
                                         </button>
-                                        <button onClick={() => setView('notes')} className="p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition text-left">
-                                            <div className="text-lg font-bold text-blue-600 mb-1">New Note</div>
-                                            <div className="text-xs text-slate-600">Write notes</div>
+                                        <button onClick={() => setView('notes')} className={`p-4 ${darkMode ? 'bg-blue-900/30 hover:bg-blue-900/50' : 'bg-blue-50 hover:bg-blue-100'} rounded-xl transition text-left`}>
+                                            <div className={`text-lg font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'} mb-1`}>New Note</div>
+                                            <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-slate-600'}`}>Write notes</div>
                                         </button>
                                     </div>
                                 </div>
 
                                 {/* Recent Tasks */}
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                                        <LucideIcon name="clock" className="w-5 h-5 text-indigo-600" size={20} />
+                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} rounded-2xl p-6 shadow-sm border`}>
+                                    <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                                        <LucideIcon name="clock" className={`w-5 h-5 ${darkMode ? 'text-indigo-400' : 'text-indigo-600'}`} size={20} />
                                         Recent Tasks
                                     </h3>
                                     <div className="space-y-2">
                                         {tasks.slice(0, 5).map((t) => (
-                                            <div key={t.id} className={`p-3 bg-slate-50 rounded-xl flex items-center gap-3 ${t.completed ? 'opacity-60' : ''}`}>
-                                                <button onClick={() => toggleTask(t.id)} className={`w-5 h-5 rounded border-2 flex items-center justify-center ${t.completed ? 'bg-green-500 border-green-500' : 'border-slate-300'}`}>
+                                            <div key={t.id} className={`p-3 ${darkMode ? 'bg-gray-700/50' : 'bg-slate-50'} rounded-xl flex items-center gap-3 ${t.completed ? 'opacity-60' : ''}`}>
+                                                <button onClick={() => toggleTask(t.id)} className={`w-5 h-5 rounded border-2 flex items-center justify-center ${t.completed ? 'bg-green-500 border-green-500' : (darkMode ? 'border-gray-500' : 'border-slate-300')}`}>
                                                     {t.completed && <LucideIcon name="check" className="text-white text-xs" size={16} />}
                                                 </button>
-                                                <span className={`flex-1 text-sm ${t.completed ? 'line-through text-slate-400' : ''}`}>{t.text}</span>
+                                                <span className={`flex-1 text-sm ${t.completed ? 'line-through text-slate-400' : (darkMode ? 'text-gray-200' : 'text-slate-800')}`}>{t.text}</span>
                                             </div>
                                         ))}
                                         {tasks.length === 0 && (
@@ -1338,16 +1343,16 @@ const MainApp = ({ userData, onLogout }) => {
                             {/* Upcoming Exams & Projects & Notes */}
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                                 {/* Upcoming Exams */}
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                                        <LucideIcon name="calendar-days" className="w-5 h-5 text-orange-600" size={20} />
+                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} rounded-2xl p-6 shadow-sm border`}>
+                                    <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                                        <LucideIcon name="calendar-days" className={`w-5 h-5 ${darkMode ? 'text-orange-400' : 'text-orange-600'}`} size={20} />
                                         Upcoming Exams
                                     </h3>
                                     <div className="space-y-3">
                                         {upcomingExams.length > 0 ? upcomingExams.map((exam, i) => (
-                                            <div key={i} className="p-4 bg-orange-50 border-l-4 border-orange-500 rounded-r-xl">
-                                                <div className="font-bold text-slate-900">{exam.subject}</div>
-                                                <div className="text-sm text-slate-600 mt-1">{exam.date}</div>
+                                            <div key={i} className={`p-4 ${darkMode ? 'bg-orange-900/20 border-orange-500/50' : 'bg-orange-50 border-orange-500'} border-l-4 rounded-r-xl`}>
+                                                <div className={`font-bold ${darkMode ? 'text-orange-200' : 'text-slate-900'}`}>{exam.subject}</div>
+                                                <div className={`text-sm ${darkMode ? 'text-orange-300/60' : 'text-slate-600'} mt-1`}>{exam.date}</div>
                                             </div>
                                         )) : (
                                             <div className="text-center py-8 text-slate-400 text-sm">
@@ -1357,23 +1362,23 @@ const MainApp = ({ userData, onLogout }) => {
                                         )}
                                     </div>
                                     {exams.length > 3 && (
-                                        <button onClick={() => setView('exams')} className="w-full mt-4 py-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition text-sm font-medium">
+                                        <button onClick={() => setView('exams')} className={`w-full mt-4 py-2 ${darkMode ? 'text-indigo-400 hover:bg-indigo-900/30' : 'text-indigo-600 hover:bg-indigo-50'} rounded-lg transition text-sm font-medium`}>
                                             View All Exams →
                                         </button>
                                     )}
                                 </div>
 
                                 {/* Recent Projects */}
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                                        <LucideIcon name="folder" className="w-5 h-5 text-purple-600" size={20} />
+                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} rounded-2xl p-6 shadow-sm border`}>
+                                    <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                                        <LucideIcon name="folder" className={`w-5 h-5 ${darkMode ? 'text-purple-400' : 'text-purple-600'}`} size={20} />
                                         Recent Projects
                                     </h3>
                                     <div className="space-y-3">
                                         {projects.slice(0, 3).map((project) => (
-                                            <div key={project.id} onClick={() => { setSelectedProject(project); setView('projects'); }} className="p-4 bg-purple-50 rounded-xl cursor-pointer hover:bg-purple-100 transition">
-                                                <div className="font-bold text-slate-900">{project.name}</div>
-                                                <div className="text-sm text-slate-600 mt-1">
+                                            <div key={project.id} onClick={() => { setSelectedProject(project); setView('projects'); }} className={`p-4 ${darkMode ? 'bg-purple-900/20 hover:bg-purple-900/40' : 'bg-purple-50 hover:bg-purple-100'} rounded-xl cursor-pointer transition`}>
+                                                <div className={`font-bold ${darkMode ? 'text-purple-200' : 'text-slate-900'}`}>{project.name}</div>
+                                                <div className={`text-sm ${darkMode ? 'text-purple-300/60' : 'text-slate-600'} mt-1`}>
                                                     {tasks.filter(t => t.projectId === project.id).length} tasks
                                                 </div>
                                             </div>
@@ -1386,26 +1391,26 @@ const MainApp = ({ userData, onLogout }) => {
                                         )}
                                     </div>
                                     {projects.length > 3 && (
-                                        <button onClick={() => setView('projects')} className="w-full mt-4 py-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition text-sm font-medium">
+                                        <button onClick={() => setView('projects')} className={`w-full mt-4 py-2 ${darkMode ? 'text-indigo-400 hover:bg-indigo-900/30' : 'text-indigo-600 hover:bg-indigo-50'} rounded-lg transition text-sm font-medium`}>
                                             View All Projects →
                                         </button>
                                     )}
                                 </div>
 
                                 {/* Recent Notes */}
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                                        <LucideIcon name="file-text" className="w-5 h-5 text-blue-600" size={20} />
+                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} rounded-2xl p-6 shadow-sm border`}>
+                                    <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                                        <LucideIcon name="file-text" className={`w-5 h-5 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} size={20} />
                                         Recent Notes
                                     </h3>
                                     <div className="space-y-3">
                                         {recentNotes.length > 0 ? recentNotes.map((note) => (
-                                            <div key={note.id} onClick={() => { selectNote(note); setView('notes'); }} className="p-4 bg-blue-50 rounded-xl cursor-pointer hover:bg-blue-100 transition">
-                                                <div className="font-bold text-slate-900">{note.title}</div>
-                                                <div className="text-sm text-slate-600 mt-1 line-clamp-2">
+                                            <div key={note.id} onClick={() => { selectNote(note); setView('notes'); }} className={`p-4 ${darkMode ? 'bg-blue-900/20 hover:bg-blue-900/40' : 'bg-blue-50 hover:bg-blue-100'} rounded-xl cursor-pointer transition`}>
+                                                <div className={`font-bold ${darkMode ? 'text-blue-200' : 'text-slate-900'}`}>{note.title}</div>
+                                                <div className={`text-sm ${darkMode ? 'text-blue-300/60' : 'text-slate-600'} mt-1 line-clamp-2`}>
                                                     {note.content.substring(0, 60)}...
                                                 </div>
-                                                <div className="text-xs text-slate-400 mt-1">
+                                                <div className={`text-xs ${darkMode ? 'text-slate-500' : 'text-slate-400'} mt-1`}>
                                                     {new Date(note.updatedAt).toLocaleDateString()}
                                                 </div>
                                             </div>
@@ -1417,7 +1422,7 @@ const MainApp = ({ userData, onLogout }) => {
                                         )}
                                     </div>
                                     {notes.length > 3 && (
-                                        <button onClick={() => setView('notes')} className="w-full mt-4 py-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition text-sm font-medium">
+                                        <button onClick={() => setView('notes')} className={`w-full mt-4 py-2 ${darkMode ? 'text-indigo-400 hover:bg-indigo-900/30' : 'text-indigo-600 hover:bg-indigo-50'} rounded-lg transition text-sm font-medium`}>
                                             View All Notes →
                                         </button>
                                     )}
@@ -1429,22 +1434,22 @@ const MainApp = ({ userData, onLogout }) => {
 
                 {/* VIEW: CHAT */}
                 {view === 'chat' && (
-                    <div className="flex flex-col h-full bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+                    <div className={`flex flex-col h-full ${darkMode ? 'bg-gray-800/80 border-gray-700' : 'bg-white/80 border-slate-200'} backdrop-blur-lg rounded-2xl shadow-lg border overflow-hidden`}>
                         <div className="flex-1 p-6 overflow-y-auto space-y-4 chat-scroll">
                             {messages.map((m, i) => (
                                 <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}>
-                                    <div className={`p-4 max-w-[80%] rounded-2xl shadow-sm ${m.role === 'user' ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white' : 'bg-slate-100 text-slate-800'}`}>
+                                    <div className={`p-4 max-w-[80%] rounded-2xl shadow-sm ${m.role === 'user' ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white' : (darkMode ? 'bg-gray-700 text-gray-200' : 'bg-slate-100 text-slate-800')}`}>
                                         {m.text}
                                     </div>
                                 </div>
                             ))}
                         </div>
-                        <div className="p-4 bg-white/50 backdrop-blur-sm border-t border-slate-200 flex gap-3">
-                            <label className="p-3 bg-slate-100 rounded-xl hover:bg-slate-200 cursor-pointer transition">
+                        <div className={`p-4 ${darkMode ? 'bg-gray-800/50 border-gray-700' : 'bg-white/50 border-slate-200'} backdrop-blur-sm border-t flex gap-3`}>
+                            <label className={`p-3 ${darkMode ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' : 'bg-slate-100 hover:bg-slate-200'} rounded-xl cursor-pointer transition`}>
                                 <LucideIcon name="paperclip" size={24} />
                                 <input type="file" hidden onChange={uploadFile} accept=".pdf" />
                             </label>
-                            <input value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key === 'Enter' && sendMsg()} className="flex-1 bg-slate-100 rounded-xl px-4 outline-none focus:ring-2 focus:ring-indigo-100" placeholder="Ask about your notes..." />
+                            <input value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key === 'Enter' && sendMsg()} className={`flex-1 ${darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-500' : 'bg-slate-100 border-transparent text-slate-800'} rounded-xl px-4 outline-none focus:ring-2 focus:ring-indigo-100`} placeholder="Ask about your notes..." />
                             <button onClick={sendMsg} className="bg-indigo-600 text-white p-3 rounded-xl hover:bg-indigo-700 shadow-md hover:shadow-lg transition"><LucideIcon name="send" size={24} /></button>
                         </div>
                     </div>
@@ -1453,11 +1458,17 @@ const MainApp = ({ userData, onLogout }) => {
                 {/* VIEW: TASKS */}
                 {view === 'tasks' && (
                     <div className="max-w-2xl mx-auto h-full overflow-y-auto">
-                        <h2 className="text-3xl font-bold mb-6 text-slate-800">Task Manager</h2>
+                        <h2 className={`text-3xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-slate-800'}`}>Task Manager</h2>
 
                         <div className="flex gap-2 mb-8">
-                            <input value={newTask} onChange={e => setNewTask(e.target.value)} onKeyPress={e => e.key === 'Enter' && addTask()} className="flex-1 border p-4 rounded-xl shadow-sm outline-none focus:border-indigo-500 bg-white" placeholder="New assignment or task..." />
-                            <button onClick={addTask} className="bg-slate-900 text-white px-6 rounded-xl font-bold hover:bg-slate-800 shadow-md">Add</button>
+                            <input
+                                value={newTask}
+                                onChange={e => setNewTask(e.target.value)}
+                                onKeyPress={e => e.key === 'Enter' && addTask()}
+                                className={`flex-1 border p-4 rounded-xl shadow-sm outline-none focus:border-indigo-500 ${darkMode ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500' : 'bg-white border-gray-300 text-slate-800'}`}
+                                placeholder="New assignment or task..."
+                            />
+                            <button onClick={() => addTask()} className={`${darkMode ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-slate-900 hover:bg-slate-800'} text-white px-6 rounded-xl font-bold shadow-md transition`}>Add</button>
                         </div>
 
                         <div className="space-y-3 mb-6">
@@ -1508,10 +1519,16 @@ const MainApp = ({ userData, onLogout }) => {
                 {view === 'projects' && (
                     <div className="max-w-4xl mx-auto h-full overflow-y-auto">
                         <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-3xl font-bold text-slate-800">Projects</h2>
+                            <h2 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'}`}>Projects</h2>
                             <div className="flex gap-2">
-                                <input value={newProjectName} onChange={e => setNewProjectName(e.target.value)} onKeyPress={e => e.key === 'Enter' && createProject()} className="border p-3 rounded-xl outline-none focus:border-indigo-500 bg-white" placeholder="Project name..." />
-                                <button onClick={createProject} className="bg-indigo-600 text-white px-6 rounded-xl font-bold hover:bg-indigo-700 shadow-md">
+                                <input
+                                    value={newProjectName}
+                                    onChange={e => setNewProjectName(e.target.value)}
+                                    onKeyPress={e => e.key === 'Enter' && createProject()}
+                                    className={`border p-3 rounded-xl outline-none focus:border-indigo-500 ${darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300'}`}
+                                    placeholder="Project name..."
+                                />
+                                <button onClick={createProject} className="bg-indigo-600 text-white px-6 rounded-xl font-bold hover:bg-indigo-700 shadow-md flex items-center gap-2">
                                     <LucideIcon name="plus" size={24} /> Create
                                 </button>
                             </div>
@@ -1529,28 +1546,34 @@ const MainApp = ({ userData, onLogout }) => {
                                     </button>
                                 </div>
 
-                                <div className="bg-white rounded-2xl border p-6 shadow-sm">
+                                <div className={`rounded-2xl border p-6 shadow-sm ${darkMode ? 'bg-gray-800/80 border-gray-700' : 'bg-white border-slate-200'}`}>
                                     <div className="flex gap-2 mb-4">
-                                        <input value={newTask} onChange={e => setNewTask(e.target.value)} onKeyPress={e => e.key === 'Enter' && addTask()} className="flex-1 border p-3 rounded-xl outline-none focus:border-indigo-500" placeholder="Add task to this project..." />
-                                        <button onClick={addTask} className="bg-indigo-600 text-white px-6 rounded-xl font-bold">Add Task</button>
+                                        <input
+                                            value={newTask}
+                                            onChange={e => setNewTask(e.target.value)}
+                                            onKeyPress={e => e.key === 'Enter' && addTask()}
+                                            className={`flex-1 border p-3 rounded-xl outline-none focus:border-indigo-500 ${darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-slate-800'}`}
+                                            placeholder="Add task to this project..."
+                                        />
+                                        <button onClick={() => addTask()} className="bg-indigo-600 text-white px-6 rounded-xl font-bold transition hover:bg-indigo-700">Add Task</button>
                                     </div>
                                     <div className="space-y-2">
                                         {tasks.filter(t => t.projectId === selectedProject.id).map((t) => (
                                             <div key={t.id} className={`p-3 rounded-xl flex items-center gap-3 border-2 ${t.completed
-                                                ? 'bg-green-50 border-green-300'
-                                                : 'bg-red-50 border-red-300'
+                                                ? (darkMode ? 'bg-green-900/20 border-green-800/50' : 'bg-green-50 border-green-300')
+                                                : (darkMode ? 'bg-red-900/20 border-red-800/50' : 'bg-red-50 border-red-300')
                                                 }`}>
-                                                <button onClick={() => toggleTask(t.id)} className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${t.completed
+                                                <button onClick={() => toggleTask(t.id)} className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition ${t.completed
                                                     ? 'bg-green-500 border-green-600'
                                                     : 'bg-red-500 border-red-600'
                                                     }`}>
                                                     {t.completed && <LucideIcon name="check" className="text-white text-xs" size={16} />}
                                                 </button>
                                                 <span className={`flex-1 ${t.completed
-                                                    ? 'line-through text-green-700'
-                                                    : 'text-red-700 font-semibold'
+                                                    ? (darkMode ? 'line-through text-green-400/70' : 'line-through text-green-700')
+                                                    : (darkMode ? 'text-red-400 font-semibold' : 'text-red-700 font-semibold')
                                                     }`}>{t.text}</span>
-                                                <button onClick={() => deleteTask(t.id)} className="text-red-600 hover:text-red-800">
+                                                <button onClick={() => deleteTask(t.id)} className="text-red-600 hover:text-red-800 transition">
                                                     <LucideIcon name="trash-2" className="w-4 h-4" size={16} />
                                                 </button>
                                             </div>
@@ -1561,17 +1584,17 @@ const MainApp = ({ userData, onLogout }) => {
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {projects.map((project) => (
-                                    <div key={project.id} className="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-md transition cursor-pointer" onClick={() => selectProject(project)}>
+                                    <div key={project.id} className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} border rounded-2xl p-6 shadow-sm hover:shadow-md transition cursor-pointer`} onClick={() => selectProject(project)}>
                                         <div className="flex justify-between items-start mb-4">
-                                            <h3 className="text-xl font-bold">{project.name}</h3>
+                                            <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'}`}>{project.name}</h3>
                                             <button onClick={(e) => { e.stopPropagation(); deleteProject(project.id); }} className="text-red-500 hover:text-red-700">
                                                 <LucideIcon name="trash-2" className="w-4 h-4" size={16} />
                                             </button>
                                         </div>
-                                        <p className="text-sm text-slate-500 mb-2">
+                                        <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-slate-500'} mb-2`}>
                                             {tasks.filter(t => t.projectId === project.id).length} tasks
                                         </p>
-                                        <p className="text-xs text-slate-400">
+                                        <p className={`text-xs ${darkMode ? 'text-gray-500' : 'text-slate-400'}`}>
                                             Created {new Date(project.createdAt).toLocaleDateString()}
                                         </p>
                                     </div>
@@ -1590,24 +1613,29 @@ const MainApp = ({ userData, onLogout }) => {
                 {/* VIEW: DRAWING */}
                 {view === 'drawing' && (
                     <div className="h-full flex flex-col">
-                        <div className="bg-white/80 backdrop-blur-lg border rounded-2xl p-4 mb-4 shadow-lg">
+                        <div className={`${darkMode ? 'bg-gray-800/80 border-gray-700' : 'bg-white/80 border-slate-200'} backdrop-blur-lg border rounded-2xl p-4 mb-4 shadow-lg`}>
                             <div className="flex flex-wrap gap-4 items-center">
                                 <div className="flex items-center gap-2">
-                                    <label className="text-sm font-medium">Color:</label>
-                                    <input type="color" value={drawingColor} onChange={e => setDrawingColor(e.target.value)} className="w-10 h-10 rounded border cursor-pointer" />
+                                    <label className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-slate-700'}`}>Color:</label>
+                                    <input type="color" value={drawingColor} onChange={e => setDrawingColor(e.target.value)} className={`w-10 h-10 rounded border cursor-pointer ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200'}`} />
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <label className="text-sm font-medium">Brush:</label>
+                                    <label className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-slate-700'}`}>Brush:</label>
                                     <input type="range" min="1" max="20" value={brushSize} onChange={e => setBrushSize(e.target.value)} className="w-24" />
-                                    <span className="text-sm text-slate-500">{brushSize}px</span>
+                                    <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-slate-500'}`}>{brushSize}px</span>
                                 </div>
-                                <button onClick={clearCanvas} className="px-4 py-2 bg-red-100 text-red-600 rounded-xl hover:bg-red-200 font-medium">
+                                <button onClick={clearCanvas} className={`px-4 py-2 ${darkMode ? 'bg-red-900/30 text-red-400 hover:bg-red-900/50' : 'bg-red-100 text-red-600 hover:bg-red-200'} rounded-xl font-medium transition flex items-center gap-2`}>
                                     <LucideIcon name="trash-2" size={20} /> Clear
                                 </button>
                                 <div className="flex-1"></div>
                                 <div className="flex items-center gap-2">
-                                    <input value={currentDrawingName} onChange={e => setCurrentDrawingName(e.target.value)} className="border p-2 rounded-xl outline-none focus:border-indigo-500" placeholder="Drawing name..." />
-                                    <button onClick={saveDrawing} className="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-medium">
+                                    <input
+                                        value={currentDrawingName}
+                                        onChange={e => setCurrentDrawingName(e.target.value)}
+                                        className={`border p-2 rounded-xl outline-none focus:border-indigo-500 ${darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-500' : 'bg-white border-gray-300'}`}
+                                        placeholder="Drawing name..."
+                                    />
+                                    <button onClick={saveDrawing} className="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-medium transition flex items-center gap-2">
                                         <LucideIcon name="save" size={20} /> Save
                                     </button>
                                 </div>
@@ -1615,10 +1643,10 @@ const MainApp = ({ userData, onLogout }) => {
                         </div>
 
                         <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-4 overflow-hidden">
-                            <div className="lg:col-span-2 bg-white/80 backdrop-blur-lg border rounded-2xl p-4 shadow-lg overflow-hidden">
+                            <div className={`${darkMode ? 'bg-gray-800/80 border-gray-700' : 'bg-white/80 border-slate-200'} backdrop-blur-lg border rounded-2xl p-4 shadow-lg overflow-hidden`}>
                                 <canvas
                                     ref={canvasRef}
-                                    className="w-full h-full border rounded-xl cursor-crosshair bg-white"
+                                    className={`w-full h-full border rounded-xl cursor-crosshair ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'}`}
                                     onMouseDown={startDrawing}
                                     onMouseMove={draw}
                                     onMouseUp={stopDrawing}
@@ -1630,24 +1658,24 @@ const MainApp = ({ userData, onLogout }) => {
                                 ></canvas>
                             </div>
 
-                            <div className="bg-white/80 backdrop-blur-lg border rounded-2xl p-4 shadow-lg overflow-y-auto">
-                                <h3 className="text-lg font-bold mb-4">Saved Drawings</h3>
-                                <div className="space-y-2">
+                            <div className={`${darkMode ? 'bg-gray-800/80 border-gray-700' : 'bg-white/80 border-slate-200'} backdrop-blur-lg border rounded-2xl p-4 shadow-lg overflow-y-auto`}>
+                                <h3 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>Saved Drawings</h3>
+                                <div className="space-y-4">
                                     {savedDrawings.map((drawing) => (
-                                        <div key={drawing.id} className="p-3 border rounded-xl hover:bg-slate-50">
+                                        <div key={drawing.id} className={`p-3 border rounded-xl ${darkMode ? 'bg-gray-700/50 border-gray-700' : 'hover:bg-slate-50 border-gray-200'}`}>
                                             <div className="flex items-center justify-between mb-2">
-                                                <span className="font-medium text-sm">{drawing.name}</span>
-                                                <div className="flex gap-1">
-                                                    <button onClick={() => loadDrawing(drawing)} className="text-indigo-600 hover:text-indigo-700">
+                                                <span className={`font-medium text-sm ${darkMode ? 'text-gray-200' : 'text-slate-700'}`}>{drawing.name}</span>
+                                                <div className="flex gap-2">
+                                                    <button onClick={() => loadDrawing(drawing)} className="text-indigo-400 hover:text-indigo-300 transition">
                                                         <LucideIcon name="download" className="w-4 h-4" size={16} />
                                                     </button>
-                                                    <button onClick={() => deleteDrawing(drawing.id)} className="text-red-500 hover:text-red-700">
+                                                    <button onClick={() => deleteDrawing(drawing.id)} className="text-red-400 hover:text-red-300 transition">
                                                         <LucideIcon name="trash-2" className="w-4 h-4" size={16} />
                                                     </button>
                                                 </div>
                                             </div>
-                                            <img src={drawing.data} alt={drawing.name} className="w-full rounded border" />
-                                            <p className="text-xs text-slate-400 mt-1">{new Date(drawing.createdAt).toLocaleDateString()}</p>
+                                            <img src={drawing.data} alt={drawing.name} className={`w-full rounded border ${darkMode ? 'border-gray-600' : 'border-gray-200'}`} />
+                                            <p className={`text-xs mt-1 ${darkMode ? 'text-gray-500' : 'text-slate-400'}`}>{new Date(drawing.createdAt).toLocaleDateString()}</p>
                                         </div>
                                     ))}
                                     {savedDrawings.length === 0 && (
@@ -1665,18 +1693,27 @@ const MainApp = ({ userData, onLogout }) => {
                 {/* VIEW: EXAMS */}
                 {view === 'exams' && (
                     <div className="max-w-2xl mx-auto">
-                        <h2 className="text-3xl font-bold mb-6">Exam Schedule</h2>
-                        <div className="bg-white/80 backdrop-blur-lg p-6 rounded-2xl border shadow-lg space-y-4">
+                        <h2 className={`text-3xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-slate-800'}`}>Exam Schedule</h2>
+                        <div className={`${darkMode ? 'bg-gray-800/80 border-gray-700' : 'bg-white/80 border-slate-200'} backdrop-blur-lg p-6 rounded-2xl border shadow-lg space-y-4`}>
                             <div className="flex gap-2">
-                                <input type="text" placeholder="Subject" className="flex-1 border p-3 rounded-xl outline-none focus:border-indigo-500" onChange={e => setNewExam({ ...newExam, subject: e.target.value })} />
-                                <input type="date" className="border p-3 rounded-xl outline-none" onChange={e => setNewExam({ ...newExam, date: e.target.value })} />
-                                <button onClick={() => { setExams([...exams, newExam]); setNewExam({ subject: '', date: '' }); }} className="bg-green-600 text-white px-6 rounded-xl font-bold hover:bg-green-700 shadow-md">Add</button>
+                                <input
+                                    type="text"
+                                    placeholder="Subject"
+                                    className={`flex-1 border p-3 rounded-xl outline-none focus:border-indigo-500 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+                                    onChange={e => setNewExam({ ...newExam, subject: e.target.value })}
+                                />
+                                <input
+                                    type="date"
+                                    className={`border p-3 rounded-xl outline-none ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+                                    onChange={e => setNewExam({ ...newExam, date: e.target.value })}
+                                />
+                                <button onClick={() => { setExams(prev => [...prev, newExam]); setNewExam({ subject: '', date: '' }); }} className="bg-green-600 text-white px-6 rounded-xl font-bold hover:bg-green-700 shadow-md transition">Add</button>
                             </div>
                             <div className="space-y-2 mt-4">
                                 {exams.map((e, i) => (
-                                    <div key={i} className="flex justify-between items-center p-4 bg-slate-50 border-l-4 border-green-500 rounded-r-xl">
-                                        <span className="font-bold">{e.subject}</span>
-                                        <span className="text-slate-500 bg-white border px-2 py-1 rounded text-sm">{e.date}</span>
+                                    <div key={i} className={`flex justify-between items-center p-4 ${darkMode ? 'bg-gray-700/50 border-green-500/50' : 'bg-slate-50 border-green-500'} border-l-4 rounded-r-xl`}>
+                                        <span className={`font-bold ${darkMode ? 'text-white' : 'text-slate-800'}`}>{e.subject}</span>
+                                        <span className={`text-sm ${darkMode ? 'bg-gray-700 border-gray-600 text-gray-300' : 'bg-white border-gray-200 text-slate-500'} border px-2 py-1 rounded`}>{e.date}</span>
                                     </div>
                                 ))}
                             </div>
@@ -1688,10 +1725,10 @@ const MainApp = ({ userData, onLogout }) => {
                 {view === 'notes' && (
                     <div className="h-full flex gap-6">
                         {/* Notes List Sidebar */}
-                        <div className="w-80 bg-white/80 backdrop-blur-lg border rounded-2xl p-4 shadow-lg overflow-y-auto">
+                        <div className={`w-80 ${darkMode ? 'bg-gray-800/80 border-gray-700' : 'bg-white/80 border-slate-200'} backdrop-blur-lg border rounded-2xl p-4 shadow-lg overflow-y-auto`}>
                             <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-2xl font-bold text-slate-800">Notes</h2>
-                                <button onClick={newNote} className="p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                                <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'}`}>Notes</h2>
+                                <button onClick={newNote} className="p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
                                     <LucideIcon name="plus" size={24} />
                                 </button>
                             </div>
@@ -1701,15 +1738,15 @@ const MainApp = ({ userData, onLogout }) => {
                                         key={note.id}
                                         onClick={() => selectNote(note)}
                                         className={`p-4 rounded-xl cursor-pointer transition ${selectedNote?.id === note.id
-                                            ? 'bg-indigo-50 border-2 border-indigo-500'
-                                            : 'bg-slate-50 hover:bg-slate-100 border-2 border-transparent'
-                                            }`}
+                                            ? (darkMode ? 'bg-indigo-900/40 border-indigo-500' : 'bg-indigo-50 border-indigo-500')
+                                            : (darkMode ? 'bg-gray-700/50 hover:bg-gray-700 border-transparent' : 'bg-slate-50 hover:bg-slate-100 border-transparent')
+                                            } border-2`}
                                     >
-                                        <div className="font-bold text-slate-900 mb-1">{note.title}</div>
-                                        <div className="text-sm text-slate-600 line-clamp-2 mb-2">
+                                        <div className={`font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-1`}>{note.title}</div>
+                                        <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-slate-600'} line-clamp-2 mb-2`}>
                                             {note.content.substring(0, 80)}...
                                         </div>
-                                        <div className="text-xs text-slate-400">
+                                        <div className={`text-xs ${darkMode ? 'text-gray-500' : 'text-slate-400'}`}>
                                             {new Date(note.updatedAt).toLocaleDateString()}
                                         </div>
                                     </div>
@@ -1724,32 +1761,32 @@ const MainApp = ({ userData, onLogout }) => {
                         </div>
 
                         {/* Notes Editor */}
-                        <div className="flex-1 flex flex-col bg-white/80 backdrop-blur-lg border rounded-2xl shadow-lg overflow-hidden">
+                        <div className={`flex-1 flex flex-col ${darkMode ? 'bg-gray-800/80 border-gray-700' : 'bg-white/80 border-slate-200'} backdrop-blur-lg border rounded-2xl shadow-lg overflow-hidden`}>
                             {/* Editor Header */}
-                            <div className="p-4 border-b border-slate-200 flex items-center justify-between">
+                            <div className={`p-4 ${darkMode ? 'border-gray-700' : 'border-slate-200'} border-b flex items-center justify-between`}>
                                 <div className="flex-1">
                                     <input
                                         type="text"
                                         value={currentNoteTitle}
                                         onChange={(e) => setCurrentNoteTitle(e.target.value)}
                                         onBlur={selectedNote ? saveNote : null}
-                                        className="text-2xl font-bold w-full bg-transparent border-none outline-none focus:ring-0"
+                                        className={`text-2xl font-bold w-full bg-transparent border-none outline-none focus:ring-0 ${darkMode ? 'text-white' : 'text-slate-800'}`}
                                         placeholder="Note Title..."
                                     />
                                 </div>
                                 <div className="flex gap-2">
                                     {selectedNote && (
                                         <>
-                                            <button onClick={saveNote} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium">
+                                            <button onClick={saveNote} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium transition flex items-center gap-2">
                                                 <LucideIcon name="save" size={20} /> Save
                                             </button>
-                                            <button onClick={() => deleteNote(selectedNote.id)} className="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 text-sm font-medium">
+                                            <button onClick={() => deleteNote(selectedNote.id)} className={`px-4 py-2 ${darkMode ? 'bg-red-900/30 text-red-400 hover:bg-red-900/50' : 'bg-red-50 text-red-600 hover:bg-red-100'} rounded-lg text-sm font-medium transition`}>
                                                 <LucideIcon name="trash-2" size={20} />
                                             </button>
                                         </>
                                     )}
                                     {!selectedNote && (
-                                        <button onClick={createNote} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium">
+                                        <button onClick={createNote} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium transition flex items-center gap-2">
                                             <LucideIcon name="save" size={20} /> Create
                                         </button>
                                     )}
@@ -1758,18 +1795,18 @@ const MainApp = ({ userData, onLogout }) => {
 
                             {/* AI Help Buttons */}
                             {selectedNote && currentNoteContent.trim() && (
-                                <div className="p-4 border-b border-slate-200 bg-indigo-50/50">
+                                <div className={`p-4 border-b ${darkMode ? 'border-gray-700 bg-indigo-900/20' : 'border-slate-200 bg-indigo-50/50'}`}>
                                     <div className="flex flex-wrap gap-2">
-                                        <button onClick={() => getAiHelp('summarize')} className="px-3 py-2 bg-white border border-indigo-200 text-indigo-600 rounded-lg hover:bg-indigo-50 text-sm font-medium flex items-center gap-2">
+                                        <button onClick={() => getAiHelp('summarize')} className={`px-3 py-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-indigo-400 hover:bg-gray-600' : 'bg-white border-indigo-200 text-indigo-600 hover:bg-indigo-50'} border rounded-lg text-sm font-medium flex items-center gap-2 transition`}>
                                             <LucideIcon name="file-text" size={20} /> Summarize
                                         </button>
-                                        <button onClick={() => getAiHelp('improve')} className="px-3 py-2 bg-white border border-indigo-200 text-indigo-600 rounded-lg hover:bg-indigo-50 text-sm font-medium flex items-center gap-2">
+                                        <button onClick={() => getAiHelp('improve')} className={`px-3 py-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-indigo-400 hover:bg-gray-600' : 'bg-white border-indigo-200 text-indigo-600 hover:bg-indigo-50'} border rounded-lg text-sm font-medium flex items-center gap-2 transition`}>
                                             <LucideIcon name="sparkles" size={20} /> Improve
                                         </button>
-                                        <button onClick={() => getAiHelp('explain')} className="px-3 py-2 bg-white border border-indigo-200 text-indigo-600 rounded-lg hover:bg-indigo-50 text-sm font-medium flex items-center gap-2">
+                                        <button onClick={() => getAiHelp('explain')} className={`px-3 py-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-indigo-400 hover:bg-gray-600' : 'bg-white border-indigo-200 text-indigo-600 hover:bg-indigo-50'} border rounded-lg text-sm font-medium flex items-center gap-2 transition`}>
                                             <LucideIcon name="lightbulb" size={20} /> Explain
                                         </button>
-                                        <button onClick={() => getAiHelp('questions')} className="px-3 py-2 bg-white border border-indigo-200 text-indigo-600 rounded-lg hover:bg-indigo-50 text-sm font-medium flex items-center gap-2">
+                                        <button onClick={() => getAiHelp('questions')} className={`px-3 py-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-indigo-400 hover:bg-gray-600' : 'bg-white border-indigo-200 text-indigo-600 hover:bg-indigo-50'} border rounded-lg text-sm font-medium flex items-center gap-2 transition`}>
                                             <LucideIcon name="help-circle" size={20} /> Generate Questions
                                         </button>
                                     </div>
@@ -1781,7 +1818,7 @@ const MainApp = ({ userData, onLogout }) => {
                                 <textarea
                                     value={currentNoteContent}
                                     onChange={(e) => setCurrentNoteContent(e.target.value)}
-                                    className="flex-1 p-6 border-none outline-none resize-none bg-transparent text-slate-800"
+                                    className={`flex-1 p-6 border-none outline-none resize-none bg-transparent ${darkMode ? 'text-gray-200 placeholder-gray-500' : 'text-slate-800'}`}
                                     placeholder="Start writing your notes here..."
                                 />
 
@@ -1826,8 +1863,8 @@ const MainApp = ({ userData, onLogout }) => {
                         <window.CalendarView
                             exams={exams}
                             darkMode={darkMode}
-                            onAddExam={(newExam) => setExams([...exams, newExam])}
-                            onDeleteExam={(idx) => setExams(exams.filter((_, i) => i !== idx))}
+                            onAddExam={(newExam) => setExams(prev => [...prev, newExam])}
+                            onDeleteExam={(idx) => setExams(prev => prev.filter((_, i) => i !== idx))}
                         />
                     ) : (
                         <div className="flex items-center justify-center h-full">

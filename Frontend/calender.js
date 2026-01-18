@@ -75,8 +75,8 @@ const CalendarView = ({ exams, darkMode, onAddExam, onDeleteExam }) => {
                     key={day}
                     onClick={() => handleDateClick(day)}
                     className={`p-2 min-h-[80px] border rounded-lg cursor-pointer transition-all hover:shadow-md ${darkMode
-                            ? 'border-gray-700 hover:bg-gray-700'
-                            : 'border-gray-200 hover:bg-blue-50'
+                        ? 'border-gray-700 hover:bg-gray-700'
+                        : 'border-gray-200 hover:bg-blue-50'
                         } ${isToday
                             ? (darkMode ? 'bg-indigo-900/50 border-indigo-500' : 'bg-indigo-50 border-indigo-300')
                             : ''
@@ -86,8 +86,8 @@ const CalendarView = ({ exams, darkMode, onAddExam, onDeleteExam }) => {
                         }`}
                 >
                     <div className={`text-sm font-bold mb-1 ${isToday
-                            ? 'text-indigo-600'
-                            : (darkMode ? 'text-gray-300' : 'text-gray-700')
+                        ? 'text-indigo-600'
+                        : (darkMode ? 'text-gray-300' : 'text-gray-700')
                         }`}>
                         {day}
                     </div>
@@ -96,8 +96,8 @@ const CalendarView = ({ exams, darkMode, onAddExam, onDeleteExam }) => {
                             <div
                                 key={idx}
                                 className={`text-xs px-2 py-1 rounded ${darkMode
-                                        ? 'bg-orange-900 text-orange-200'
-                                        : 'bg-orange-100 text-orange-800'
+                                    ? 'bg-orange-900 text-orange-200'
+                                    : 'bg-orange-100 text-orange-800'
                                     } truncate`}
                                 title={exam.subject}
                             >
@@ -180,10 +180,10 @@ const CalendarView = ({ exams, darkMode, onAddExam, onDeleteExam }) => {
                                     <div
                                         key={idx}
                                         className={`p-4 rounded-xl border-l-4 ${daysUntil === 0
-                                                ? 'border-red-500 bg-red-50 dark:bg-red-900/20'
-                                                : daysUntil <= 3
-                                                    ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20'
-                                                    : 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                                            ? 'border-red-500 bg-red-50 dark:bg-red-900/20'
+                                            : daysUntil <= 3
+                                                ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20'
+                                                : 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
                                             } flex items-center justify-between`}
                                     >
                                         <div>
@@ -195,10 +195,10 @@ const CalendarView = ({ exams, darkMode, onAddExam, onDeleteExam }) => {
                                                 {exam.time && ` at ${exam.time}`}
                                             </div>
                                             <div className={`text-xs mt-1 ${daysUntil === 0
-                                                    ? 'text-red-600 dark:text-red-400'
-                                                    : daysUntil <= 3
-                                                        ? 'text-orange-600 dark:text-orange-400'
-                                                        : 'text-blue-600 dark:text-blue-400'
+                                                ? 'text-red-600 dark:text-red-400'
+                                                : daysUntil <= 3
+                                                    ? 'text-orange-600 dark:text-orange-400'
+                                                    : 'text-blue-600 dark:text-blue-400'
                                                 }`}>
                                                 {daysUntil === 0 ? 'Today!' : daysUntil === 1 ? 'Tomorrow' : `In ${daysUntil} days`}
                                             </div>
@@ -224,74 +224,64 @@ const CalendarView = ({ exams, darkMode, onAddExam, onDeleteExam }) => {
 
             {/* Add Exam Modal */}
             {showAddModal && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowAddModal(false)}>
+                <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm ${darkMode ? 'bg-black/60' : 'bg-black/20'}`} onClick={() => setShowAddModal(false)}>
                     <div
-                        className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-2xl p-6 w-full max-w-md`}
+                        className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'} border rounded-2xl p-6 w-full max-w-md shadow-2xl animate-scale-in`}
                         onClick={e => e.stopPropagation()}
                     >
-                        <h3 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                            Add Exam
+                        <h3 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                            Add Special Event
                         </h3>
                         <div className="space-y-4">
                             <div>
-                                <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-slate-700'} mb-1`}>
                                     Subject
                                 </label>
                                 <input
                                     type="text"
                                     value={newExam.subject}
                                     onChange={e => setNewExam({ ...newExam, subject: e.target.value })}
-                                    className={`w-full px-4 py-2 rounded-lg border ${darkMode
-                                            ? 'bg-gray-700 border-gray-600 text-white'
-                                            : 'bg-white border-gray-300 text-gray-900'
-                                        } outline-none focus:ring-2 focus:ring-indigo-500`}
+                                    className={`w-full border p-2 rounded-lg outline-none focus:ring-2 focus:ring-indigo-100 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
                                     placeholder="e.g., Mathematics Final"
                                 />
                             </div>
-                            <div>
-                                <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                                    Date
-                                </label>
-                                <input
-                                    type="date"
-                                    value={newExam.date}
-                                    onChange={e => setNewExam({ ...newExam, date: e.target.value })}
-                                    className={`w-full px-4 py-2 rounded-lg border ${darkMode
-                                            ? 'bg-gray-700 border-gray-600 text-white'
-                                            : 'bg-white border-gray-300 text-gray-900'
-                                        } outline-none focus:ring-2 focus:ring-indigo-500`}
-                                />
-                            </div>
-                            <div>
-                                <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                                    Time (optional)
-                                </label>
-                                <input
-                                    type="time"
-                                    value={newExam.time}
-                                    onChange={e => setNewExam({ ...newExam, time: e.target.value })}
-                                    className={`w-full px-4 py-2 rounded-lg border ${darkMode
-                                            ? 'bg-gray-700 border-gray-600 text-white'
-                                            : 'bg-white border-gray-300 text-gray-900'
-                                        } outline-none focus:ring-2 focus:ring-indigo-500`}
-                                />
+                            <div className="flex gap-4">
+                                <div className="flex-1">
+                                    <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-slate-700'} mb-1`}>
+                                        Date
+                                    </label>
+                                    <input
+                                        type="date"
+                                        value={newExam.date}
+                                        onChange={e => setNewExam({ ...newExam, date: e.target.value })}
+                                        className={`w-full border p-2 rounded-lg outline-none ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-slate-700'} mb-1`}>
+                                        Time
+                                    </label>
+                                    <input
+                                        type="time"
+                                        value={newExam.time}
+                                        onChange={e => setNewExam({ ...newExam, time: e.target.value })}
+                                        className={`w-full border p-2 rounded-lg outline-none ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+                                    />
+                                </div>
                             </div>
                         </div>
-                        <div className="flex gap-3 mt-6">
-                            <button
-                                onClick={handleAddExam}
-                                className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium"
-                            >
-                                Add Exam
-                            </button>
+                        <div className="flex gap-3 justify-end mt-6">
                             <button
                                 onClick={() => setShowAddModal(false)}
-                                className={`flex-1 px-4 py-2 rounded-lg transition font-medium ${darkMode
-                                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                                    }`}
+                                className={`px-4 py-2 ${darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'} rounded-lg font-medium transition`}
                             >
                                 Cancel
+                            </button>
+                            <button
+                                onClick={handleAddExam}
+                                className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-700 shadow-lg transition"
+                            >
+                                Add Event
                             </button>
                         </div>
                     </div>
